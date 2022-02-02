@@ -52,7 +52,7 @@ spec:
                   name: contrast-license
                   key: license
             - name: JAVA_OPTS
-              value: "-XX:InitialRAMPercentage=50.0 -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0"
+              value: "-XX:InitialRAMPercentage=75.0 -XX:MaxRAMPercentage=75.0 -XX:MinRAMPercentage=75.0"
           livenessProbe:
             httpGet:
               path: /Contrast/api/public/ng/health/status/live
@@ -75,10 +75,10 @@ spec:
           resources:
             requests:
               cpu: 1.0
-              memory: 2Gi
+              memory: 4Gi
             limits:
               cpu: 2.0
-              memory: 4Gi
+              memory: 8Gi
       initContainers:
         - name: init-migrations
           image: ghcr.io/contrast-security-inc/contrast:latest
