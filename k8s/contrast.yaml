@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: contrast
+  labels:
+    app: contrast
+  annotations:
+    traefik.ingress.kubernetes.io/affinity: "true"
+spec:
+  selector:
+    app: contrast
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contrast
+  labels:
+    app: contrast
+spec:
+  selector:
+    matchLabels:
+      app: contrast
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: contrast
+    spec:
+      containers:
+        - name: contrast
+          image: ghcr.io/contrast-security-inc/contrast:latest
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: CONTRAST_JDBC_URL
+              value: "jdbc:mysql://contrast-mysql:3306/contrast"
+            - name: CONTRAST_JDBC_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: contrast-database
+                  key: password
+            - name: CONTRAST_JDBC_USER
+              value: "contrast"
+            - name: CONTRAST_LICENSE
+              valueFrom:
+                secretKeyRef:
+                  name: contrast-license
+                  key: license
+            - name: JAVA_OPTS
+              value: "-XX:InitialRAMPercentage=50.0 -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0"
+          livenessProbe:
+            httpGet:
+              path: /Contrast/api/public/ng/health/status/live
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            failureThreshold: 5
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /Contrast/api/public/ng/health/status/ready
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            failureThreshold: 5
+            timeoutSeconds: 10
+          volumeMounts:
+            - name: contrast-config-volume
+              mountPath: /opt/contrast/conf
+          resources:
+            requests:
+              cpu: 1.0
+              memory: 2Gi
+            limits:
+              cpu: 2.0
+              memory: 4Gi
+      initContainers:
+        - name: init-migrations
+          image: ghcr.io/contrast-security-inc/contrast:latest
+          env:
+            - name: CONTRAST_JDBC_URL
+              value: "jdbc:mysql://contrast-mysql:3306/contrast"
+            - name: CONTRAST_JDBC_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: contrast-database
+                  key: password
+            - name: CONTRAST_JDBC_USER
+              value: "contrast"
+            - name: CONTRAST_LICENSE
+              valueFrom:
+                secretKeyRef:
+                  name: contrast-license
+                  key: license
+          args: ['run-migrations.sh']
+      volumes:
+        - name: contrast-config-volume
+          configMap:
+            name: contrast-config
+            optional: true

@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  ldap:
+    build:
+      context: .
+    ports:
+      - 389:389
+    environment:
+      - LDAPS=false
+    volumes:
+      - $PWD/data:/ldif

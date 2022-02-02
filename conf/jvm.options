@@ -1,0 +1,15 @@
+#production configuration
+# Heap configuration
+-XX:+UseContainerSupport
+-XX:InitialRAMPercentage=50.0
+-XX:MaxRAMPercentage=50.0
+-XX:MinRAMPercentage=50.0
+
+# Garbage Collection configuration
+-XX:+UseConcMarkSweepGC
+-XX:CMSInitiatingOccupancyFraction=75
+-XX:+UseCMSInitiatingOccupancyOnly
+
+#-Dreset.superadmin=true 
+#-Dsuperadmin.username=contrast_superadmin@gmail.com 
+#-Dsuperadmin.password=default1!

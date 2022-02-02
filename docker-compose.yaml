@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+#mysql container
+
+  # contrast-database:
+  #   image: mysql:8.0.21
+  #   command: --log-bin-trust-function-creators=ON
+  #   environment:
+  #     - MYSQL_RANDOM_ROOT_PASSWORD=yes
+  #     - MYSQL_DATABASE=contrast
+  #     - MYSQL_USER=contrast
+  #     - MYSQL_PASSWORD=default1!
+  #   ports:
+  #     - '3306'
+
+#Teamserver container
+  contrast:
+    image: ghcr.io/contrast-security-inc/contrast:latest
+    # depends_on:
+    #   - contrast-database
+    ports:
+      - 80:8080
+    environment:
+    # LICENCE Setup:
+      #- CONTRAST_LICENSE=${CONTRAST_LICENSE}   #loaded via ENV
+      - CONTRAST_HUB_USERNAME=<EMAIL>
+      - CONTRAST_HUB_PASSWORD=<PASSWORD>
+    # MySQL Setup: 
+      # FOR REMOTE MySQL
+      - CONTRAST_JDBC_URL=jdbc:mysql://<DNS of MYSQL>:3306/contrast
+      - CONTRAST_JDBC_USER=contrast
+      - CONTRAST_JDBC_PASS=<PASSWORD>
+      # FOR LOCALHOST MySQL
+      # - CONTRAST_JDBC_URL=jdbc:mysql://host.docker.internal:3306/contrast
+      # - CONTRAST_JDBC_USER=contrast
+      # - CONTRAST_JDBC_PASS=<PASSWORD>
+      # For a MySQL Container  --Uncomment 6 thru 15 and 20 & 21 along with the lines below.
+      # - CONTRAST_JDBC_URL=jdbc:mysql://contrast-database:3306/contrast
+      # - CONTRAST_JDBC_USER=contrast
+      # - CONTRAST_JDBC_PASS=<PASSWORD>
+
+    # SAML Setup
+      # - CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORD=changeit
+      # - CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORDMAP=some-alias=changeit
+    
+    volumes:
+      - ./conf:/opt/contrast/conf
+    deploy: 
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 8g
+        reservations:
+          cpus: "1.0"
+          memory: 4g
+
+  #- LDAP Testing Server   
+  # ldap:
+  #   build:
+  #     context: ./ldap
+  #   ports:
+  #     - 389:389
+  #   environment:
+  #     - LDAPS=false
+  #   volumes:
+  #     - $PWD/ldap/data:/ldif
+
