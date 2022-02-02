@@ -1,6 +1,7 @@
-# Configuring Contrast to use self-signed or privately-signed certificate with LDAP
+# Configuring Contrast to use self-signed or privately-signed certificate with LDAPS
 
-The purpose of this document is to describe how to configuring Contrast to use self-signed or privately-signed certificate with LDAP.
+The purpose of this document is to describe how to configuring Contrast to use self-signed or privately-signed certificate for LDAPS.
+Once this is configured, follow the normal procedures on our [doc site](https://docs.contrastsecurity.com/en/ldap.html)
 
 ## Configuration Steps
 

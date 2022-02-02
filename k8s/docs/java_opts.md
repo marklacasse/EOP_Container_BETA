@@ -5,7 +5,7 @@
 
 | Name      	| Description   	| Example                                                                           	|
 |-----------	|---------------	|-----------------------------------------------------------------------------------	|
-| JAVA_OPTS 	| JVM arguments 	| -XX:InitialRAMPercentage=50.0 -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0 	|
+| JAVA_OPTS 	| JVM arguments 	| -XX:InitialRAMPercentage=75.0 -XX:MaxRAMPercentage=75.0 -XX:MinRAMPercentage=75.0 	|
 
 ## Configuring Heap size
 
@@ -13,7 +13,7 @@
 
         # This example will configure the JVM to calculate the heap size based on the available memory
         - name: JAVA_OPTS
-          value: "-XX:InitialRAMPercentage=50.0 -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0"
+          value: "-XX:InitialRAMPercentage=75.0 -XX:MaxRAMPercentage=75.0 -XX:MinRAMPercentage=75.0"
 
 1. If you are increasing or decreasing the heap size, you'll need to update `contrast.yaml` with new resource limits
 
@@ -21,10 +21,10 @@
           requests:
             cpu: 1.0
             # The memory value will need to change as the heap configuration changes
-            memory: 2Gi
+            memory: 4Gi
           limits:
             cpu: 2.0
-            memory: 4Gi
+            memory: 8Gi
 
 ## Contrast specific configuration examples
 

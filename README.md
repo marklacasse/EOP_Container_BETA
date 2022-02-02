@@ -1,7 +1,8 @@
 # Running with Docker Compose
 
 Although not used to deploy containers in a production environment, 
-[Docker Compose](https://docs.docker.com/compose/) is a great tool for a simplified container-based deployment for development and testing. Please see [kubernetes README here](/k8s/README.md) 
+[Docker Compose](https://docs.docker.com/compose/) is a great tool for a simplified container-based deployment for development and testing. 
+For Kubernetes, please see the [README here](/k8s/README.md) 
 
 ## Installing Docker Compose
 
@@ -10,10 +11,12 @@ are provided in [the official documentation](https://docs.docker.com/compose/ins
 
 ## Setup License
 
+> **NOTE**: The Contrast License needs to be generated recently (after June 11th, 2020) so it includes the updated format the container expects.
+
 ```
 export CONTRAST_LICENSE=$(cat contrast-06-30-2021.lic)
 ```
-OR by using your HUB credentials:
+OR by using your HUB credentials in the `docker-compose.yaml`:
 ```
 - CONTRAST_HUB_USERNAME=
 - CONTRAST_HUB_PASSWORD=
@@ -59,7 +62,7 @@ This file will get mounted under `/opt/contrast/conf` in the container
 
 ## Configuration Contrast Property settings
 
-To updating Contrast property settings for supported values can be done in `/props/contrast.properties`.
+To updating Contrast property settings for supported values can be done in `/conf/contrast.properties`.
 
 Example of some properties that can be set here:
 ```
@@ -70,27 +73,11 @@ authenticator.saml.keystore.path=/opt/contrast/conf/samlKeystore2.jks
 authenticator.saml.keystore.default.key=some-alias
 ```
 
-## Adding an LDAP server to the containers
-
-Uncommment the following section in the compose file:
-```
-  ldap:
-    build:
-      context: ./ldap
-    ports:
-      - 389:389
-    environment:
-      - LDAPS=false
-    volumes:
-      - $PWD/ldap/data:/ldif
-```
-Ref https://contrast.atlassian.net/wiki/spaces/ENG/pages/731381778/LDAP+Scenarios for configuring the LDAP fields.
-
-For the hostname and port use the internal name of the container `ldap` and port `389`
-
 ## Configuring distributed mysql 
 
 You can also just run the Teamserver container without Mysql and point to an existing Mysql server.
+
+> **WARNING:** It is not recomended to point the Teamserver containers at your production database. Should you wish to point the container at a pre-production database, ensure you are using the exact same version of the Teamserver for the image.  Otherwise you may inadvertanly upgrade your database schema causing problems for your normal EOP installations. 
 
 ### First comment out the Mysql container and dependancies in the `docker-compose.yaml` file. 
 ```
@@ -111,7 +98,7 @@ and
     #   - contrast-database
 ```
 
-### Then update the Mysql 
+### Then update the Mysql connection details:
 
 #### MySQL running on your local System:
 ```
