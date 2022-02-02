@@ -13,11 +13,11 @@ are provided in [the official documentation](https://docs.docker.com/compose/ins
 
 > **NOTE**: The Contrast License needs to be generated recently (after June 11th, 2020) so it includes the updated format the container expects.
 
-```
+```bash
 export CONTRAST_LICENSE=$(cat contrast-06-30-2021.lic)
 ```
 OR by using your HUB credentials in the `docker-compose.yaml`:
-```
+```yaml
 - CONTRAST_HUB_USERNAME=
 - CONTRAST_HUB_PASSWORD=
 ```
@@ -42,11 +42,11 @@ Teamserver can be accessed on http://locahost/Contrast
 
 To utilize specific versions of the Contrast UI, the following line in the  `docker-compose.yaml` file can be updated.
 
-```
+```yaml
 image: ghcr.io/contrast-security-inc/contrast:latest
 ```
 to
-```
+```yaml
 image: ghcr.io/contrast-security-inc/contrast:3.7.11.53849
 ```
 
@@ -65,7 +65,7 @@ This file will get mounted under `/opt/contrast/conf` in the container
 To updating Contrast property settings for supported values can be done in `/conf/contrast.properties`.
 
 Example of some properties that can be set here:
-```
+```properties
 server.external.host=localhost
 server.external.port=8080
 server.external.protocol=http
@@ -80,7 +80,7 @@ You can also just run the Teamserver container without Mysql and point to an exi
 > **WARNING:** It is not recomended to point the Teamserver containers at your production database. Should you wish to point the container at a pre-production database, ensure you are using the exact same version of the Teamserver for the image.  Otherwise you may inadvertanly upgrade your database schema causing problems for your normal EOP installations. 
 
 ### First comment out the Mysql container and dependancies in the `docker-compose.yaml` file. 
-```
+```yaml
   # contrast-database:
   #   image: mysql:8.0.21
   #   command: --log-bin-trust-function-creators=ON
@@ -93,7 +93,7 @@ You can also just run the Teamserver container without Mysql and point to an exi
   #     - '3306'
 ```
 and
-```
+```yaml
     # depends_on:
     #   - contrast-database
 ```
@@ -101,14 +101,14 @@ and
 ### Then update the Mysql connection details:
 
 #### MySQL running on your local System:
-```
+```yaml
 # FOR Localhost MySQ
 - CONTRAST_JDBC_URL=jdbc:mysql://host.docker.internal:3306/contrast
 - CONTRAST_JDBC_USER=<enter user>
 - CONTRAST_JDBC_PASS=<enter password>
 ```
 #### MySQL running on RDS:
-```
+```yaml
 # FOR RDS MySQL
 - CONTRAST_JDBC_URL=jdbc:mysql://user.c0lasdae9lf.us-east-2.rds.amazonaws.com:3306/contrast
 - CONTRAST_JDBC_USER=<enter user>
@@ -120,7 +120,7 @@ and
 
 To check the status of the containers you can run `docker-compose ps`:
 
-```
+```bash
 $ docker-compose ps
 
                  Name                               Command                  State                     Ports               
@@ -142,6 +142,6 @@ Once the containers have finishing initializing, you can invoke APIs and access 
 
 To clean up, you can stop and remove the running containers:
 
-```
+```bash
 docker-compose rm -s
 ```# EOP_Container_BETA
