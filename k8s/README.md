@@ -42,8 +42,14 @@ kubectl create secret generic contrast-license --from-file=license=<path to cont
          kubectl apply -f ingress.yaml
 
 1.   **The following can also be used to quickly expose the contrast service**
-```   kubectl expose deployment contrast --type=LoadBalancer --name=contrast-lb
+```   
+kubectl expose deployment contrast --type=LoadBalancer --name=contrast-lb
 ```
+
+**Alternatively, if running in a cloud, the Contrast service can be forwarded to a local port**
+[Port-forwarding with Kubernetes](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/#forward-a-local-port-to-a-port-on-the-pod)
+
+> **_NOTE:_**  [K9s](https://k9scli.io/topics/install/) is a great choice for managing and interacting with pods and services
 
 
 ## Depoying Contrast Teamserver with Remote MySQL database 
