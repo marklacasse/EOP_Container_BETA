@@ -28,7 +28,8 @@ contrast.cache.redis.client.name=teamserver
 ```
 
 1.  Update the conf/contrast.properties by uncommenting and filling out the redis section.
-2.  Deploy or redeploy the `k8s/contrast.yaml`
+2.  Deploy or update the contrast configMap [see config overview](docs/configuration-overview)
+3.  Deploy or redeploy the `k8s/contrast.yaml`
 
 ## Alternatively, these can also be configured in the `k8s/contrast.yaml` files `env` section.
 ---
@@ -55,7 +56,8 @@ contrast.cache.redis.client.name=teamserver
 
 3. Deploy or redeploy the `k8s/contrast.yaml`
 
-### Checking setup:
+## Checking setup:
+---
 
 The /data/logs/contrast.log will contain all the information on the current configuration and interactions with redis.
 

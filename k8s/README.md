@@ -51,7 +51,7 @@ kubectl create secret generic contrast-license --from-file=license=<path to cont
 - Configure the `CONTRAST_JDBC_USER` if it differs from the default
 
 Example
-```
+```yaml
           env:
             - name: CONTRAST_JDBC_URL
               value: "jdbc:mysql://<ADD MySQL DNS HERE>:3306/contrast"

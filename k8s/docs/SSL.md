@@ -34,13 +34,13 @@ The purpose of this document is to describe how to configure SSL all the way to 
 ## Configuration Steps
 
 1. Create three `secrets` to configure Contrast to access the keystore
-
+```bash
         kubectl create secret generic contrast-ssl-keystore --from-file=ssl.jks=ssl.jks
         kubectl create secret generic contrast-ssl --from-literal=server.ssl.key-store-password="changeme" --from-literal=server.ssl.key-password="changeme"
-
+```
 
 1. Update the `contrast.yaml` file to mount the keystore as a file
-  
+  ```yaml
         template:
             metadata:
               labels:
@@ -63,9 +63,9 @@ The purpose of this document is to describe how to configure SSL all the way to 
                 - name: contrast-ssl
                   secret:
                     secretName: contrast-ssl-keystore
-
+```
 1. Update the `contrast.yaml` file to define the environment variables to configure the SSL secrets
-
+```yaml
             - name: CONTRAST_SERVER_SSL_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -76,10 +76,11 @@ The purpose of this document is to describe how to configure SSL all the way to 
                 secretKeyRef:
                   name: contrast-ssl
                   key: server.ssl.key-password
-
+```
 
 1. Create or update a [contrast-config ConfigMap](./configuration-overview.md) to define any configuration values
-  
+ ```properties 
         server.ssl.enabled=true
         server.ssl.key-alias=contrast-server
         server.ssl.key-store=/opt/contrast/data/ssl/ssl.jks
+```
