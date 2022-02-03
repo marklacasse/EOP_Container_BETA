@@ -9,13 +9,13 @@ Once this is configured, follow the normal procedures on our [doc site](https://
 ```bash
         keytool -importcert -keystore contrast-truststore.jks -storepass changeme -file <ldap cert> -noprompt
 ```
-1. Create two `secrets` to configure Contrast to access the trust store
+2. Create two `secrets` to configure Contrast to access the trust store
 ```bash
         kubectl create secret generic contrast-truststore --from-file=contrast-truststore.jks
         kubectl create secret generic contrast-truststore-password --from-literal=password="changeme"
 ```
 
-1. Update the `contrast.yaml` file to mount the trust store as a file
+3. Update the `contrast.yaml` file to mount the trust store as a file
 ```yaml
         template:
             metadata:
@@ -39,7 +39,7 @@ Once this is configured, follow the normal procedures on our [doc site](https://
                   secret:
                     secretName: contrast-truststore
 ```
-1. Update the `contrast.yaml` file to define the environment variables to configure the trust store password and configure the JVM to use the trust store
+4. Update the `contrast.yaml` file to define the environment variables to configure the trust store password and configure the JVM to use the trust store
 ```yaml
             - name: CONTRAST_TRUSTSTORE_PASSWORD
               valueFrom:
