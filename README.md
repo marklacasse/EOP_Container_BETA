@@ -151,4 +151,5 @@ To clean up, you can stop and remove the running containers:
 
 ```bash
 docker-compose rm -s
-```# EOP_Container_BETA
+```
+
