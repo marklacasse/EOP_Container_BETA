@@ -75,10 +75,10 @@ spec:
           resources:
             requests:
               cpu: 1.0
-              memory: 4Gi
+              memory: 2Gi
             limits:
               cpu: 2.0
-              memory: 8Gi
+              memory: 4Gi
       initContainers:
         - name: init-migrations
           image: ghcr.io/contrast-security-inc/contrast:latest
