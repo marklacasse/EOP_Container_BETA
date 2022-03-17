@@ -6,6 +6,8 @@ services:
   contrast-database:
     image: mysql:8.0.21
     command: --log-bin-trust-function-creators=ON
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=contrast
