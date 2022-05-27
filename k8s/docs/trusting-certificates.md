@@ -35,7 +35,7 @@ With this approach, the certificate is mounted to an initContainer, imported to 
 
 `kubectl create secret generic contrast-cacert-to-add --from-file=cert-to-add.pem=your_cert.pem`
 
-1. Update the `contrast.yaml` adding 2 volumes:
+2. Update the `contrast.yaml` adding 2 volumes:
 ```yaml
 volumes:
   - name: contrast-truststore-volume
@@ -45,11 +45,11 @@ volumes:
       secretName: contrast-cacert-to-add
 ```
 
-1. Add the below option to the `JAVA_OPTS` environment value:
+3. Add the below option to the `JAVA_OPTS` environment value:
 
 `-Djavax.net.ssl.trustStore=/opt/contrast/truststore/truststore`
 
-1. Mount `contrast-truststore-volume` to the main container:
+4. Mount `contrast-truststore-volume` to the main container:
 
 ```yaml
 volumeMounts:
@@ -57,7 +57,7 @@ volumeMounts:
     mountPath: /opt/contrast/truststore
 ```
 
-1. Add an initContainer below the `init-migrations` container in `contrast.yaml`:
+5. Add an initContainer below the `init-migrations` container in `contrast.yaml`:
 
 ```yaml
 - name: init-cacerts
