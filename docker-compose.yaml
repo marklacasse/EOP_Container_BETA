@@ -4,7 +4,8 @@ services:
 #mysql container
 
   contrast-database:
-    image: mysql:8.0.21
+    #platform: linux/x86_64 #uncomment this line for ARM based systems like M1/2 Macs
+    image: mysql:8.0.30
     command: --log-bin-trust-function-creators=ON
     cap_add:
       - SYS_NICE  # CAP_SYS_NICE
