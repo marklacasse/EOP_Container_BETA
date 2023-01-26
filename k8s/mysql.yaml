@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: contrast-mysql
-          image: mysql:8.0.21
+          image: mysql:8.0.30
           args: ["--log-bin-trust-function-creators=ON"]
           env:
             - name: MYSQL_RANDOM_ROOT_PASSWORD
