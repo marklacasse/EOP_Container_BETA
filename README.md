@@ -89,7 +89,7 @@ You can also just run the Teamserver container without Mysql and point to an exi
 1. First comment out the Mysql container and dependancies in the `docker-compose.yaml` file.
 ```yaml
   # contrast-database:
-  #   image: mysql:8.0.21
+  #   image: mysql:8.0.30
   #   command: --log-bin-trust-function-creators=ON
   #   environment:
   #     - MYSQL_RANDOM_ROOT_PASSWORD=yes
