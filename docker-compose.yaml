@@ -49,7 +49,7 @@ services:
       # - CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORDMAP=some-alias=changeit
     
     volumes:
-      - ./conf:/opt/contrast/conf
+       - ./conf:/opt/contrast/data/conf
     deploy: 
       resources:
         limits:
