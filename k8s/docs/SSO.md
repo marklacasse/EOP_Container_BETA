@@ -6,8 +6,8 @@ See the [documentation](https://docs.contrastsecurity.com/en/system-sso.html) fo
 
 | Name                                             	| Description           	                                | Example                              	|
 |--------------------------------------------------	|---------------------------------------------------------|--------------------------------------	|
-| `authenticator.saml.keystore.path`        	| Path to the keystore  	                                | /path/to/samlKeystore.jks            	|
-| `authenticator.saml.keystore.default.key` 	| Key pair alias                                          | some-alias                           	|
+| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PATH`        	| Path to the keystore  	                                | /path/to/samlKeystore.jks            	|
+| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_DEFAULT_KEY` 	| Key pair alias                                          | some-alias                           	|
 | `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORD`    	| Keystore password     	                                | changeit                             	|
 | `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORDMAP` 	| Keystore password map 	                                | some-alias=changeit                  	|
 
@@ -56,9 +56,15 @@ See [Configuring External URL](./external-url.md)
                     secretName: contrast-sso-keystore
 ```
 
-1. Update the `contrast.yaml` file to define the environment variables to configure SAML secrets
+1. Update the `contrast.yaml` file to define the environment variables to configure SAML secrets. You will also want to define the LB address that will be used to access the Teamserver as this is encorporated into the SAML assertion. 
 
 ```yaml
+            - name: CONTRAST_TEAMSERVER_URL
+              value: https://<LoadBalancer_Host>/Contrast
+            - name: CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PATH
+              value: /opt/contrast/data/saml/samlKeystore.jks
+            - name: CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_DEFAULT_KEY
+              value: some-alias
             - name: CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -70,10 +76,5 @@ See [Configuring External URL](./external-url.md)
                   name: contrast-sso
                   key: password-map
 ```
-1. Create or update a [contrast-config ConfigMap](./configuration-overview.md) to define any non-secret SAML properties
-```bash
-          authenticator.saml.keystore.path=/opt/contrast/data/saml/samlKeystore.jks
-          authenticator.saml.keystore.default.key=some-alias
-          server.external.port=80
-```
+
 1. Continue from Step 4 in the [SSO documentation](https://docs.contrastsecurity.com/en/system-sso.html) to configure your IdP.
