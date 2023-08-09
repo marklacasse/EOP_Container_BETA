@@ -71,7 +71,7 @@ spec:
             timeoutSeconds: 10
           volumeMounts:
             - name: contrast-config-volume
-              mountPath: /opt/contrast/conf
+              mountPath: /opt/contrast/data/conf
           resources:
             requests:
               cpu: 1.0
@@ -100,6 +100,4 @@ spec:
           args: ['run-migrations.sh']
       volumes:
         - name: contrast-config-volume
-          configMap:
-            name: contrast-config
-            optional: true
+          emptyDir: {}

@@ -6,17 +6,11 @@ See the [documentation](https://docs.contrastsecurity.com/en/system-sso.html) fo
 
 | Name                                             	| Description           	                                | Example                              	|
 |--------------------------------------------------	|---------------------------------------------------------|--------------------------------------	|
-| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PATH`        	| Path to the keystore  	                                | /path/to/samlKeystore.jks            	|
-| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_DEFAULT_KEY` 	| Key pair alias                                          | some-alias                           	|
-| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORD`    	| Keystore password     	                                | changeit                             	|
-| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORDMAP` 	| Keystore password map 	                                | some-alias=changeit                  	|
-
-## Configure external URL
-
-Contrast server provides SAML metadata that can be ingested by a SAML Identity Provider. This metadata includes
-the external URL of Contrast. 
-
-See [Configuring External URL](./external-url.md)
+| `CONTRAST_TEAMSERVER_URL`                           | Url of Loadbalancer used to access Teamserver           | `https://beta.teamserver.com/Contrast`             |
+| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PATH`        	| Path to the keystore  	                                | `/path/to/samlKeystore.jks `           	|
+| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_DEFAULT_KEY` 	| Key pair alias                                          | `some-alias`                           	|
+| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORD`    	| Keystore password     	                                | `changeit`                             	|
+| `CONTRAST_AUTHENTICATOR_SAML_KEYSTORE_PASSWORDMAP` 	| Keystore password map 	                                | `some-alias=changeit`                  	|
 
 
 ## Configuration steps
@@ -25,12 +19,12 @@ See [Configuring External URL](./external-url.md)
 ```bash
         keytool -genkeypair -alias some-alias -keypass changeme -keyalg RSA -keystore samlKeystore.jks
 ```
-1. Create two `secrets` to configure Contrast to enable SAML
+2. Create two `secrets` to configure Contrast to enable SAML
 ```bash
         kubectl create secret generic contrast-sso-keystore --from-file=samlKeystore.jks=samlKeystore.jks
         kubectl create secret generic contrast-sso --from-literal=password="changeme" --from-literal=password-map="some-alias=changeme"
 ```
-1. Update the `contrast.yaml` file to mount the keystore as a file
+3. Update the `contrast.yaml` file to mount the keystore as a file
 ```yaml
         template:
             metadata:
@@ -56,7 +50,9 @@ See [Configuring External URL](./external-url.md)
                     secretName: contrast-sso-keystore
 ```
 
-1. Update the `contrast.yaml` file to define the environment variables to configure SAML secrets. You will also want to define the LB address that will be used to access the Teamserver as this is encorporated into the SAML assertion. 
+4. Update the `contrast.yaml` file to define the environment variables to configure Teamserver URL and SAML secrets. 
+Contrast server provides SAML metadata that can be ingested by a SAML Identity Provider. This metadata includes
+the external URL of Contrast.
 
 ```yaml
             - name: CONTRAST_TEAMSERVER_URL
@@ -77,4 +73,4 @@ See [Configuring External URL](./external-url.md)
                   key: password-map
 ```
 
-1. Continue from Step 4 in the [SSO documentation](https://docs.contrastsecurity.com/en/system-sso.html) to configure your IdP.
+4. Continue from Step 4 in the [SSO documentation](https://docs.contrastsecurity.com/en/system-sso.html) to configure your IdP.

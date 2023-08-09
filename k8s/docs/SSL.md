@@ -5,9 +5,9 @@ The purpose of this document is to describe how to configure SSL all the way to 
 ## Required configuration values
 | Name                                             	| Description           	                                | Example                              	|
 |--------------------------------------------------	|-----------------------------------------------------------|--------------------------------------	|
-| `server.ssl.enabled` | Whether to enable SSL support.  Default value `false` | `true` |
-| `server.ssl.key-store` | Path to the key store that holds the SSL certificate.  Key store format most be one of `JKS` , `PKCS11`, or `PKCS12` (these are the only ones supported by Tomcat) | `/path/to/sslkeystorefile.jks` |
-| `server.ssl.key-alias` | Alias that identifies the key in the key store. | |
+| `SERVER_SSL_ENABLED` | Whether to enable SSL support.  Default value `false` | `true` |
+| `SERVER_SSL_KEY-STORE` | Path to the key store that holds the SSL certificate.  Key store format most be one of `JKS` , `PKCS11`, or `PKCS12` (these are the only ones supported by Tomcat) | `/path/to/sslkeystorefile.jks` |
+| `SERVER_SSL_KEY-ALIAS` | Alias that identifies the key in the key store. | |
 | `CONTRAST_SERVER_SSL_KEY_STORE_PASSWORD` | Password used to access the key store.| |
 | `CONTRAST_SERVER_SSL_KEY_PASSWORD` | Password used to access the key in the key store. | |
 
@@ -15,14 +15,14 @@ The purpose of this document is to describe how to configure SSL all the way to 
 ## Optional server configuration values
 | Name                                             	| Description           	                                | Example                              	|
 |--------------------------------------------------	|-----------------------------------------------------------|--------------------------------------	|
-| `server.port` | Default value `8080` | |
-| `server.ssl.key-store-type` | Type of keystore. Must key-store format.  Key store format must be one of `JKS`, `PKCS11`, or `PKCS12` (these are the only ones supported by Tomcat).  Default value `JKS` | `JKS` |
-| `server.ssl.ciphers` | Supported SSL ciphers.  Default value  `TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256` | |
-| `server.ssl.protocol` | SSL protocol to use.  Default value `TLS` | `TLS` |
-| `server.ssl.enabled-protocols` | Enabled protocols. Default value `TLSv1.2,TLSv1.3` | |
+| `SERVER_PORT` | Default value `8080` | |
+| `SERVER_SSL_KEY-STORE-TYPE` | Type of keystore. Must key-store format.  Key store format must be one of `JKS`, `PKCS11`, or `PKCS12` (these are the only ones supported by Tomcat).  Default value `JKS` | `JKS` |
+| `SERVER_SSL_CIPHERS` | Supported SSL ciphers.  Default value  `TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256` | |
+| `SERVER_SSL_PROTOCOL` | SSL protocol to use.  Default value `TLS` | `TLS` |
+| `SERVER_SSL_ENABLED-PROTOCOLS` | Enabled protocols. Default value `TLSv1.2,TLSv1.3` | |
 
 ### Notes:
-`server.ssl.ciphers`: Not all systems will support all cipher suites (e.g. older systems). It is important to test this in a staging environment first. See https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
+`SERVER_SSL_CIPHERS`: Not all systems will support all cipher suites (e.g. older systems). It is important to test this in a staging environment first. See https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
 
 
 ## Special Notes
@@ -39,7 +39,7 @@ The purpose of this document is to describe how to configure SSL all the way to 
         kubectl create secret generic contrast-ssl --from-literal=server.ssl.key-store-password="changeme" --from-literal=server.ssl.key-password="changeme"
 ```
 
-1. Update the `contrast.yaml` file to mount the keystore as a file
+2. Update the `contrast.yaml` file to mount the keystore as a file
   ```yaml
         template:
             metadata:
@@ -64,7 +64,7 @@ The purpose of this document is to describe how to configure SSL all the way to 
                   secret:
                     secretName: contrast-ssl-keystore
 ```
-1. Update the `contrast.yaml` file to define the environment variables to configure the SSL secrets
+3. Update the `contrast.yaml` file to define the environment variables to configure the SSL secrets
 ```yaml
             - name: CONTRAST_SERVER_SSL_KEY_STORE_PASSWORD
               valueFrom:
@@ -76,11 +76,10 @@ The purpose of this document is to describe how to configure SSL all the way to 
                 secretKeyRef:
                   name: contrast-ssl
                   key: server.ssl.key-password
-```
-
-1. Create or update a [contrast-config ConfigMap](./configuration-overview.md) to define any configuration values
- ```properties 
-        server.ssl.enabled=true
-        server.ssl.key-alias=contrast-server
-        server.ssl.key-store=/opt/contrast/data/ssl/ssl.jks
+            - name: SERVER_SSL_ENABLED
+              value: "true"
+            - name: SERVER_SSL_KEY_STORE
+              value: "/opt/contrast/data/ssl/ssl.jks"
+            - name: SERVER_SSL_KEY_ALIAS
+              value: 'contrast-server'
 ```

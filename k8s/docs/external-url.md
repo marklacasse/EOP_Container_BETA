@@ -8,11 +8,15 @@ The Contrast application constructs URLs for use by external services or users, 
 
 ## Configuration
 
-In order to configure the external URL, you can set the following properties in a [contrast-config ConfigMap](./configuration-overview.md). In most cases, the default values should be overridden.
+In order to configure the external URL, you can set the following environmental variable in your Contrast deployment. In most cases, the default values should be overridden.
 
-| Name | Description |
-| -- | -- |
-| `server.external.host` | The hostname for accessing Contrast. __Default: `localhost`__ |
-| `server.external.port` | The port for accessing Contrast, if different from the default port `8080`. __Default: `8080`__ |
-| `server.external.protocol` | The protocol for accessing Contrast, typically `http` or `https`. __Default: `http`__ |
+| Name                                             	| Description           	                                | Example                              	|
+|--------------------------------------------------	|---------------------------------------------------------|--------------------------------------	|
+| `CONTRAST_TEAMSERVER_URL`                           | Url of Loadbalancer used to access Teamserver           | `https://beta.teamserver.com/Contrast`             |
 
+ Update the `contrast.yaml` file to define the environment variables to configure Teamserver URL. 
+
+```yaml
+            - name: CONTRAST_TEAMSERVER_URL
+              value: https://<LoadBalancer_Host>/Contrast
+              
