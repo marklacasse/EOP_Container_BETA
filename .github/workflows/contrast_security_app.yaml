@@ -1,7 +1,7 @@
 # DISCLAIMER: This workflow file has been auto-generated and committed to the repo by the GitHub App from Contrast Security.
 # Manual edits to this file could cause the integration to produce unexpected behavior or break.
-# Version: 1.0.0
-# Last updated: 2024-09-24T19:19:28.701263982Z
+# Version: 1.0.1
+# Last updated: 2025-03-25T15:31:25.349663685Z
 name: Contrast Security App Workflow
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Run Contrast SCA Fingerprint
         id: fingerprint
-        uses: 'Contrast-Security-OSS/contrast-sca-action@v2'
+        uses: Contrast-Security-OSS/contrast-sca-action@v3
         with:
           apiKey: ${{ secrets.CONTRAST_GITHUB_APP_API_KEY }}
           authHeader: ${{ secrets.CONTRAST_GITHUB_APP_AUTH_HEADER }}
@@ -46,7 +46,7 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
       - name: Run Contrast SCA Audit
-        uses: 'Contrast-Security-OSS/contrast-sca-action@v2'
+        uses: Contrast-Security-OSS/contrast-sca-action@v3
         with:
           apiKey: ${{ secrets.CONTRAST_GITHUB_APP_API_KEY }}
           authHeader: ${{ secrets.CONTRAST_GITHUB_APP_AUTH_HEADER }}
