@@ -42,7 +42,7 @@ To run in active mode
 docker-compose up
 ```
 
-Teamserver can be accessed on http://locahost:8080/Contrast
+Teamserver can be accessed on http://localhost:8080/Contrast
 
 ### Changing the Contrast UI version
 
